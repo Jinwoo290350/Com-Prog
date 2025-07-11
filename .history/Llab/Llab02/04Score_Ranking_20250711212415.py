@@ -16,5 +16,5 @@ for i in (y):
 y.sort(reverse=True)    
 
 for idx, i in enumerate(y, start=1):
-    print(f"Rank #{idx}: {i}")
+    print(f"Rank #{idx}: {score}")
    

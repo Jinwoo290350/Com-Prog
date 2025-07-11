@@ -6,7 +6,7 @@ def  minus(total,value):
     return total
 
 x = int(input("How many food you have : "))
-total = 0
+
 for i in range(x):
     food = input()
     amount, status = food.split()

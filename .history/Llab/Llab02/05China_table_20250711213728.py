@@ -6,16 +6,16 @@ def  minus(total,value):
     return total
 
 x = int(input("How many food you have : "))
-total = 0
+
 for i in range(x):
     food = input()
     amount, status = food.split()
     amount = int(amount)
     status = int(status)
     if status == 1:
-        total = plus(total, amount)
+        total = plus(amount, status)
     elif status == -1:
-        total = minus(total, amount)
+        total = minus(amount, amount)
     else:
         print("สภาพอาหารต้องเป็น 1 หรือ -1 เท่านั้น")
 

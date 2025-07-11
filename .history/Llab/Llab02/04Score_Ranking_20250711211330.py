@@ -12,9 +12,4 @@ for i in (y):
     if i < 0 or i > 100:
         print("Invalid score, please enter a score between 0 and 100.")
         y.remove(i)
-        y.sort(reverse=True)
-y.sort(reverse=True)    
-
-for idx, i in enumerate(y, start=1):
-    print(f"Rank #{idx}: {i}")
-   
+           

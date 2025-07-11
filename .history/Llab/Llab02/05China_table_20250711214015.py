@@ -13,9 +13,9 @@ for i in range(x):
     amount = int(amount)
     status = int(status)
     if status == 1:
-        total = plus(total, amount)
+        total = plus(amount, amount)
     elif status == -1:
-        total = minus(total, amount)
+        total = minus(amount, amount)
     else:
         print("สภาพอาหารต้องเป็น 1 หรือ -1 เท่านั้น")
 

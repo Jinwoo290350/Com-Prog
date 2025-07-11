@@ -6,7 +6,7 @@ def  minus(total,value):
     return total
 
 x = int(input("How many food you have : "))
-total = 0
+
 for i in range(x):
     food = input()
     amount, status = food.split()
@@ -18,5 +18,7 @@ for i in range(x):
         total = minus(total, amount)
     else:
         print("สภาพอาหารต้องเป็น 1 หรือ -1 เท่านั้น")
+    except ValueError:
+        print("รูปแบบไม่ถูกต้อง กรุณาป้อนใหม่เป็น จำนวน สภาพ")
 
 print(f"{total}")
