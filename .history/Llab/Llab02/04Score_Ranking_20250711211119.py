@@ -1,4 +1,0 @@
-# Score Ranking
-
-
-x 

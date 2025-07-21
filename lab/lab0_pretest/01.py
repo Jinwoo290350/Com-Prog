@@ -1,6 +1,0 @@
-name = input("What's your name:")
-ages = input("How old are you? ")
-# print(r"Hello, \/\/KU68\/\/")
-print("Hello, \\/\\/KU68\\/\\/")
-print(f"My name is {name}.")
-print(f"I'm {ages} years old.")

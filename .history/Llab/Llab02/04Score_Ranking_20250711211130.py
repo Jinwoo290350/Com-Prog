@@ -1,3 +1,0 @@
-# Score Ranking
-
-x = inpu
