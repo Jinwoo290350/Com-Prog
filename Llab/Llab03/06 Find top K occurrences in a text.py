@@ -96,57 +96,105 @@ def getMultilinesInput():
 def getMultilinesInput():
     text = ""
     while True:
-        line = input()
-        if not line:
+        try:
+            line = input()
+            if not line:
+                break
+            text += line + ' '
+        except EOFError:
             break
-        text += line + ' '
     return text
 
-def count_words(text):
-
-    words = text.lower().split()
-
-    word_count = {}
-    for word in words:
-        clean_word = ''.join(char for char in word if char.isalnum())
-        if clean_word:  # ถ้าคำไม่ว่าง
-            word_count[clean_word] = word_count.get(clean_word, 0) + 1
-    
-    return word_count
-
-def get_top_k_words(word_count, k):
-
-    sorted_words = sorted(word_count.items(), key=lambda x: (-x[1], x[0]))
-
-    result = []
-    current_rank = 0
-    
-    i = 0
-    while i < len(sorted_words) and current_rank < k:
-        current_count = sorted_words[i][1]
-        same_count_words = []
-
-        while i < len(sorted_words) and sorted_words[i][1] == current_count:
-            same_count_words.append(sorted_words[i][0])
-            i += 1
-        
-        result.append((current_count, same_count_words))
-        current_rank += 1
-    
-    return result
-
-def print_results(top_k_results):
-    for count, words in top_k_results:
-        if len(words) == 1:
-            print(f"{words[0]}: {count}")
-        else:
-            sorted_words = sorted(words)
-            words_str = ", ".join([f"{word}: {count}" for word in sorted_words])
-            print(words_str)
-
 print("Parse a long paragraph (or text) below, following an ENTER as needed:")
-text = getMultilinesInput()
+ss = getMultilinesInput()
 k = int(input("Top K rank: "))
-word_count = count_words(text)
-top_k_results = get_top_k_words(word_count, k)
-print_results(top_k_results)
+
+cleaned_text = ''
+for ch in ss:
+    if ch.isalpha() or ch.isspace():
+        cleaned_text += ch.lower()
+    else:
+        cleaned_text += ' '
+
+words = cleaned_text.split()
+
+freq = {}
+for word in words:
+    if word in freq:
+        freq[word] += 1
+    else:
+        freq[word] = 1
+
+bucket = {}
+for word in freq:
+    count = freq[word]
+    if count not in bucket:
+        bucket[count] = [word]
+    else:
+        bucket[count].append(word)
+
+sorted_counts = []
+for count in bucket:
+    sorted_counts.append(count)
+
+# Manual sort descending
+for i in range(len(sorted_counts)):
+    for j in range(i + 1, len(sorted_counts)):
+        if sorted_counts[j] > sorted_counts[i]:
+            sorted_counts[i], sorted_counts[j] = sorted_counts[j], sorted_counts[i]
+
+output = []
+rank = 0
+last_count = None
+for count in sorted_counts:
+    group = bucket[count]
+
+    # Manual sort words in group
+    for i in range(len(group)):
+        for j in range(i + 1, len(group)):
+            if group[j] < group[i]:
+                group[i], group[j] = group[j], group[i]
+
+    for word in group:
+        output.append((word, count))
+
+    if rank < k:
+        rank += 1
+        last_count = count
+    elif count == last_count:
+        continue
+    else:
+        break
+
+# Re-bucket for printing
+final_output = {}
+for word, count in output:
+    if count not in final_output:
+        final_output[count] = [word]
+    else:
+        final_output[count].append(word)
+
+final_counts = []
+for c in final_output:
+    final_counts.append(c)
+
+# Manual sort again
+for i in range(len(final_counts)):
+    for j in range(i + 1, len(final_counts)):
+        if final_counts[j] > final_counts[i]:
+            final_counts[i], final_counts[j] = final_counts[j], final_counts[i]
+
+for count in final_counts:
+    group = final_output[count]
+
+    for i in range(len(group)):
+        for j in range(i + 1, len(group)):
+            if group[j] < group[i]:
+                group[i], group[j] = group[j], group[i]
+
+    line = ''
+    for i in range(len(group)):
+        line += group[i] + ": " + str(count)
+        if i != len(group) - 1:
+            line += ", "
+    print(line)

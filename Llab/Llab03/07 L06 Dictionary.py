@@ -4,10 +4,23 @@ x = {"arm":{1:"n",2:"แขน"}, "hello":{1:"v",2:"สวัสดี"}, "beaut
 
 while True:
     word = input().strip()
-    num = int(input().strip())
-    if num == "":
-        print("Word not in dictionary.")
+    if word == "0":
+        break
+    elif word in x:
+        while True:
+            num_input = input().strip()
+            if num_input.isdigit():
+                number = int(num_input)
+                if number == 0:
+                    break
+                elif number in x[word]:
+                    print(f"{x[word][number]}")
+                    break
+                else:
+                    print("Invalid option.")
+            else:
+                print("Invalid option.")
     else:
-        if word in x:
-            if num in x[word]:
-                print(f"{x[word][num]}")
+        print("Word not in dictionary.")
+
+#การใช้ dictionary และการรับinput แบบ loop กับ dictionary
